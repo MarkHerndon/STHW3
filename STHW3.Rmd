@@ -7,7 +7,7 @@ output:
   html_document: default
 ---
 
-Git: 
+Git: https://github.com/MarkHerndon/STHW3.git
 
 
 ```{r, include=FALSE}
