@@ -1,0 +1,381 @@
+---
+title: "STHW3"
+author: "Mark Herndon; RMH3867"
+date: "2024-02-01"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+Git: 
+
+
+```{r, include=FALSE}
+
+
+crea <- read.csv("creatinine.csv")
+
+library(ggplot2)
+
+library(tibble)
+
+```
+
+
+# PROBLEM 1
+
+
+```{r, message=FALSE, echo = FALSE}
+
+ggplot(crea, aes(x = age, y = creatclear)) + 
+    geom_point() +
+    labs(title = "Creatine Clearance Rate Vs. Age", x = "Age", y = "Creatine Clearance Rate mL/min") + 
+  geom_smooth(aes(x=age, y=creatclear), method='lm')
+
+
+model_c = lm(creatclear ~ age, data=crea)
+coef(model_c)
+
+
+# y = 148 - 0.6x
+
+# 115ml/min
+
+```
+
+## Part a: 
+
+  *What creatinine clearance rate should we expect for a 55-year-old? Explain briefly (one or two sentences + equations) how you determined this.*
+  
+  The creatinine clearance rate for a 55-year-old based off my models would be expected to be 115mL/minute. Using a linear regression model I fitted the equation of the line to be y = 148 - 0.6x. In which plugging in 55 for x yielded 115mL/min.
+
+
+## Part B:
+
+*How does creatinine clearance rate change with age? (This should be a single number whose units are ml/minute per year.) Explain briefly (one or two sentences) how you determined this.*
+
+  To determine the rate at which creatinine clearance changes with age you can refer back to the equation of the line that fit my regression model y = 148 - 0.6x. Here we see that the parameter -0.6 effects the x predictor variable causing it to decrease by a magnitude of -0.6ml/minute as age increases.
+  
+
+## Part C: 
+
+*Whose creatinine clearance rate is healthier (higher) for their age: a 40-year-old with a rate of 135, or a 60-year-old with a rate of 112? Explain briefly (a few sentences + equations) how you determined this.*
+
+  If we determine that the regression line and model created is "healthy" and fitted for the predicted values, then we can use it as the predicted value when finding the residuals for these cases and then compare them. Using the modeled line equation y = 148 - 0.6x, I first calculated the predicted creatinine clearance rate for the 40-year-old which was 124. I then found the residual by subtracting what his actual rate was (135) by the predicted amount and arrived at an error of 11. Doing the same for the 60-year-old I found that the error was 0, meaning that the person's actual rate equaled the predicted rate. So the healthier individual is the 60-year-old.
+
+
+
+# PROBLEM 2
+
+
+```{r, message=FALSE, echo=FALSE}
+
+
+mm <- read.csv('marketmodel.csv')
+
+
+# regression for Apple 
+
+
+ggplot(mm, aes(x = SPY, y = AAPL)) + 
+    geom_point() +
+    labs(title = "Regressions for Daily Returns of Market Model and Apple Returns", x = "SPY 500 (Market)", y = "Apple Beta") + 
+  geom_smooth(aes(x=SPY, y=AAPL), method='lm') 
+  
+
+
+  
+# regression for Google and   
+  
+
+ggplot(mm, aes(x = SPY, y = GOOG)) + 
+    geom_point() +
+    labs(title = "Regressions for Daily Returns of Market Model and Google Returns", x = "SPY 500 (Market)", y = "Google Beta") + 
+  geom_smooth(aes(x=SPY, y=GOOG), method='lm') 
+
+
+
+  
+# regression for Merck 
+  
+
+ggplot(mm, aes(x = SPY, y = MRK)) + 
+    geom_point() +
+    labs(title = "Regressions for Daily Returns of Market Model and Merck Returns", x = "SPY 500 (Market)", y = "Merck Beta") + 
+  geom_smooth(aes(x=SPY, y=MRK), method='lm') 
+
+
+
+
+
+ # regression for JNJ  
+
+
+ggplot(mm, aes(x = SPY, y = JNJ)) + 
+    geom_point() +
+    labs(title = "Regression for Daily Returns for Market Model and J&J Beta val", x = "SPY 500 (Market)", y = "Johnson & Johnson Beta") + 
+  geom_smooth(aes(x=SPY, y=JNJ), method='lm') 
+
+
+
+# regression for Walmart 
+  
+
+ggplot(mm, aes(x = SPY, y = WMT)) + 
+    geom_point() +
+    labs(title = "Regressions for Market Model and Walmart Beta values", x = "SPY 500 (Market)", y = "Walmart Beta") + 
+  geom_smooth(aes(x=SPY, y=WMT), method='lm') 
+
+
+
+
+
+# regression for target 
+
+
+ggplot(mm, aes(x = SPY, y = TGT)) + 
+    geom_point() +
+    labs(title = "Regressions for Market Model and Target Beta values", x = "SPY 500 (Market)", y = "Target Beta") + 
+  geom_smooth(aes(x=SPY, y=TGT), method='lm') 
+
+
+
+
+
+
+```
+
+
+```{r, message=FALSE, echo=FALSE, include=FALSE}
+
+
+#Apple stats
+
+
+model_aapl = lm(AAPL ~ SPY, data=mm)
+coef(model_aapl)
+  rsq_aapl <- summary(model_aapl)$r.squared
+
+  
+# Google stats
+    
+  
+model_goog = lm(GOOG ~ SPY, data=mm)
+coef(model_goog)
+  rsq_goog <- summary(model_goog)$r.squared
+
+  
+# Merck stats
+    
+  
+model_mrk = lm(MRK ~ SPY, data=mm)
+coef(model_mrk)
+  rsq_mrk <- summary(model_mrk)$r.squared
+ 
+
+  
+# JNJ stats
+
+
+model_jnj = lm(JNJ ~ SPY, data=mm)
+coef(model_jnj)
+  rsq_jnj <- summary(model_jnj)$r.squared
+
+  
+  
+# Walmart stats
+  
+
+model_wmt = lm(WMT ~ SPY, data=mm)
+coef(model_wmt)
+  rsq_wmt <- summary(model_wmt)$r.squared
+
+
+  
+# Target stats
+
+
+model_tgt = lm(TGT ~ SPY, data=mm)
+      coef(model_tgt)
+  rsq_tgt <- summary(model_tgt)$r.squared
+
+
+# Creating data frame for tibble
+  
+ticker <- c("APPL", "GOOG", "MRK", "JNJ", "WMT", "TGT" )  
+
+intercept <- c(coef(model_aapl)[1], coef(model_goog)[1], coef(model_mrk)[1], coef(model_jnj)[1], coef(model_wmt)[1], coef(model_tgt)[1]) 
+  
+slope <- c(coef(model_aapl)[2], coef(model_goog)[2], coef(model_mrk)[2], coef(model_jnj)[2], coef(model_wmt)[2], coef(model_tgt)[2]) 
+  
+rsq <- c(rsq_aapl, rsq_goog, rsq_mrk, rsq_jnj, rsq_wmt, rsq_tgt)
+
+
+
+# Creating tibble
+
+
+prob_2_tib <- tibble(
+  
+  
+  Comapny = ticker,
+  
+  Intercept = intercept,
+  
+  Slope = slope,
+  
+  R_squared_value = rsq
+  
+  
+)  
+
+
+```
+
+
+
+
+```{r, message=FALSE, echo=FALSE}
+
+
+prob_2_tib
+
+
+```
+**This table represnts the Capital Asset Pricing Model for each company. Here we have each companie's ticker symbol, Intercept or base value, slope or beta, and r squared value to show the variation of the data. **
+
+
+
+In the Capital Asset Pricing Model, the term "Beta" represents an asset's "systematic" risk in return rate in a market portfolio, and is the 'slope' of the model equation. What that means is it represents the effect on return or the percent change on an asset if the market is positively or negatively affected, like an interest rate. If an asset has a higher beta and the market has a positive percent change that means that asset's return rate will go up by its beta percentage. However if the market goes down that asset's return will also go down by its beta percentage, hence the 'risk' aspect. 
+  This direct positive relationship between beta and the market can be seen represented graphically by the regression models and the table created above. Each point on the grpahs are the return rates for a given day and with those points regressed you can observe there is a positive relationship for all the graphs, and referring to the table the slopes are positive. However it's important to note that the r squared values are all near 0. The R squared value measures how large the predictable component of variation is with your data, relative to the total variation. So the closer that variable is to 1, the stronger x and y are related.
+  
+  
+From the information gathered, we can see that Apple has the highest systematic risk with a beta or slope of 1.06. Meaning if the overall market were to have an increase in returns, Apple's rate of return would increase by 1.06%. If the market's rates were to decrease, Apple's would also decrease by 1.06%. Similarly, the company with the lowest systematic risk would be Walmart with a beta of 0.52%.
+
+
+
+# PROBLEM 3
+
+GRAPHS and COEFFICIENTS: 
+
+
+```{r, message=FALSE, echo = FALSE}
+
+library(dplyr)
+
+covid <- read.csv("covid.csv")
+
+# Subsetting spain and Italy data
+
+
+scov <- subset(covid, country == "Spain")
+
+icov <- subset(covid, country == "Italy")
+
+scov <- mutate(scov, Total_Death = 0)
+
+for(i in 1:nrow(scov)){
+  if (scov$deaths[i] > 0) {
+    scov$Total_Death[i] <- sum(scov$deaths[1:i])
+  }
+}
+                 
+icov <- mutate(icov, Total_Death = 0)
+
+for(i in 1:nrow(icov)){
+  if (icov$deaths[i] > 0) {
+    icov$Total_Death[i] <- sum(icov$deaths[1:i])
+  }
+}
+                                 
+                
+
+# Fit linear regression models for both countries
+lmodel_s <- lm(log(Total_Death) ~ days_since_first_death, data = scov)
+lmodel_i <- lm(log(Total_Death) ~ days_since_first_death, data = icov)
+
+coef(lmodel_s)
+
+coef(lmodel_i)
+
+
+
+ggplot(covid, aes(x = days_since_first_death, y = deaths)) +
+  
+  geom_line(data = scov, aes(x= days_since_first_death, y= Total_Death), color = 'red') +
+    
+  geom_line(data = icov, aes(x= days_since_first_death, y= Total_Death), color = 'blue') +
+  labs(x = "Days Since First Death", y = "Deaths", color = "Country", title = "Exponential Model for COVID Deaths in Spain and Italy")
+
+
+```
+```{r, message = FALSE, echo=FALSE}
+
+
+ggplot(covid, aes(x = days_since_first_death, y = deaths)) +
+  
+  geom_line(data = scov, aes(x= days_since_first_death, y= log(Total_Death)), color = 'red') +
+    
+  geom_line(data = icov, aes(x= days_since_first_death, y= log(Total_Death)), color = 'blue') +
+  labs(x = "Days Since First Death", y = "Deaths", color = "Country", title = "Exponential Model for COVID Deaths in Spain and Italy")
+
+
+
+```
+
+```{r, message=FALSE, echo =FALSE}
+
+#Doubling time
+
+dts <- (70/(coef(lmodel_s)[2]*100))
+
+dti <- (70/(coef(lmodel_i)[2]*100))
+
+
+
+```
+
+The Growth rate between Covid deaths and days since the first death in Spain was 32%, and the doubling time was 2 days. The Growth rate between Covid deaths and days since the first death in Italy was 23%, and the doubling time was 3 days.
+
+
+
+
+# PROBLEM 4
+
+
+```{r, message=FALSE, echo = FALSE}
+
+
+milk <- read.csv("milk.csv")
+
+
+lmodel_m <- lm(log(sales) ~ log(price), data = milk)
+
+coef(lmodel_m)
+
+
+ggplot(milk, aes(x = price, y = sales)) +
+  geom_point(data = milk, aes(x = price, y = sales)) +
+    labs(y = "Sales", x = 'Price of Milk', title = "Elasticity of Milk")
+
+
+ggplot(milk, aes(x = price, y = sales)) +
+  geom_point(data = milk, aes(x = log(price), y = log(sales))) + 
+  geom_abline(intercept=4.72, slope=-1.62, color='red')
+    labs(y = "log(Sales)", x = 'Price of Milk', title = "Elasticity of Milk")
+
+
+
+```
+
+For Finding the elasticity of milk, I first graphed the data for price and sales and noticed it represented the economist power law Q = KP^(beta), where beta would be our slope, which would determine our elasticity. Since our slope from the graph represents a power function, it would make sense to take the log of the number of sales and the price in order to bring the power down to make it linear to find beta. Doing so and calculating the slope yielded -1.62 rate of elasticity.
+
+
+
+
+
+
+
+
+
+
